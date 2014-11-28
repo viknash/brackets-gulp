@@ -33,7 +33,7 @@ define(function (require, exports, module) {
 	});
 
 	$(gulpDomain.connection).on('gulp.error', function (evt, data) {
-		console.log('error', '|' + data + '|');
+		//console.log('error', '|' + data + '|');
 		formOutput.appendOutput(data);
 		formOutput.panelOut.show();
 	});
@@ -87,7 +87,7 @@ define(function (require, exports, module) {
 				});
 				this.elem = $('#brackets-gulp-console');
 			}
-			output = output.trim() || '';
+			output =  output ? output.trim() : '';
 			this.elem.append('<p>' + output + '</p>');
 			this.elem[0].scrollTop = this.elem[0].scrollHeight;
 		}
@@ -143,7 +143,7 @@ define(function (require, exports, module) {
 				if (!candidatePath)
 					return gulpfileNotFound(foundCallback);
 
-				console.log("Looking for gulpfile in '%s'", candidatePath);
+				//console.log("Looking for gulpfile in '%s'", candidatePath);
 				FileSystem.resolve(candidatePath + 'gulpfile.js', function (exist) {
 					if (exist !== 'NotFound')
 						return foundCallback(null, candidatePath);
