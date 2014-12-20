@@ -87,7 +87,11 @@ define(function (require, exports, module) {
 				});
 				this.elem = $('#brackets-gulp-console');
 			}
-			output =  output ? output.trim() : '';
+            if ( output && typeof output.trim === 'function' ) {
+                output = output.trim() || '';
+            } else {
+                output = '';
+            }
 			this.elem.append('<p>' + output + '</p>');
 			this.elem[0].scrollTop = this.elem[0].scrollHeight;
 		}
