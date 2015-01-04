@@ -38,7 +38,7 @@ define(function (require, exports, module) {
 		formOutput.panelOut.show();
 	});
 
-	gulpDomain.on('gulp.tasks', function (evt, data) {
+	gulpDomain.on('tasks', function (evt, data) {
 		tasks = data.split(/\n/);
 		bracketsOnsave = tasks.indexOf('brackets-onsave');
 		if (bracketsOnsave === -1) {
