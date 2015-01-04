@@ -18,22 +18,22 @@
 
       child = exec(cmd, {cwd: cwd}, function (error, stdout, stderr) {
         if (error) { console.log(error); }   
-        _domainManager.emitEvent('gulp', 'error', [error]);
+        _domainManager.emitEvent('gulpDomain', 'error', [error]);
       });
 
       child.stdout.on('data', function (data) {
         //console.log('ok', data);
         if (args === '--tasks-simple') {
-          _domainManager.emitEvent('gulp', 'tasks', [data]);
+          _domainManager.emitEvent('gulpDomain', 'tasks', [data]);
         } else {
-          _domainManager.emitEvent('gulp', 'update', [data]);
+          _domainManager.emitEvent('gulpDomain', 'update', [data]);
         }
       });
 
       child.stderr.on('data', function (data) {
         console.log('err', data);
         //_domainManager.emitEvent('gulp', 'update', [data]);
-        _domainManager.emitEvent('gulp', 'error', [data]);
+        _domainManager.emitEvent('gulpDomain', 'error', [data]);
       });
       
     }
@@ -59,19 +59,19 @@
       );
 
       _domainManager.registerEvent(
-        'gulp',
+        'gulpDomain',
         'update',
         [{name: 'data', type: 'string'}]
       );
 
       _domainManager.registerEvent(
-        'gulp',
+        'gulpDomain',
         'tasks',
         [{name: 'data', type: 'string'}]
       );
       
       _domainManager.registerEvent(
-        'gulp',
+        'gulpDomain',
         'error',
         [{name: 'data', type: 'string'}]
       );

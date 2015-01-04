@@ -24,7 +24,7 @@ define(function (require, exports, module) {
 	var gulpMenu, gulpRoot, hasGulp, tasks, bracketsOnsave, bracketsDefault,
 		gulpDomain = new NodeDomain('gulpDomain', ExtensionUtils.getModulePath(module, 'backend.js'));
 
-	$(gulpDomain.connection).on('gulp.update', function (evt, data) {
+	gulpDomain.on('update', function (evt, data) {
 		//console.log('evntData', '|'+data+'|');
 		formOutput.appendOutput(data);
 		if (data.match(/error/) || data.match(/Error/)) {
@@ -32,13 +32,13 @@ define(function (require, exports, module) {
 		}
 	});
 
-	$(gulpDomain.connection).on('gulp.error', function (evt, data) {
+	gulpDomain.on('error', function (evt, data) {
 		//console.log('error', '|' + data + '|');
 		formOutput.appendOutput(data);
 		formOutput.panelOut.show();
 	});
 
-	$(gulpDomain.connection).on('gulp.tasks', function (evt, data) {
+	gulpDomain.on('gulp.tasks', function (evt, data) {
 		tasks = data.split(/\n/);
 		bracketsOnsave = tasks.indexOf('brackets-onsave');
 		if (bracketsOnsave === -1) {
