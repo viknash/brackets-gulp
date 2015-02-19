@@ -94,6 +94,10 @@ define(function (require, exports, module) {
             }
 			this.elem.append('<p>' + output + '</p>');
 			this.elem[0].scrollTop = this.elem[0].scrollHeight;
+		},
+		clear: function () {
+			if (this.elem)
+				this.elem.html('');
 		}
 	};
 
@@ -125,11 +129,17 @@ define(function (require, exports, module) {
 						defaultTitle = 'Default'; defaultTask = '';
 					}
 					CommandManager.register(defaultTitle, 'djb.brackets-gulp.gulp', function () {
-							gulpDomain.exec('gulp', defaultTask, gulpRoot, false);
-						});
-
+						gulpDomain.exec('gulp', defaultTask, gulpRoot, false);
+					});
 				}
 				gulpMenu.addMenuItem('djb.brackets-gulp.gulp', 'Alt-G');
+				gulpMenu.addMenuDivider();
+			}
+			if (!Menus.getMenuItem('djb.brackets-gulp.clear')) {
+				if (!CommandManager.get('djb.brackets-gulp.clear')) {
+					CommandManager.register('Clear Gulp Output console', 'djb.brackets-gulp.clear', formOutput.clear.bind(formOutput));
+				}
+				gulpMenu.addMenuItem('djb.brackets-gulp.clear');
 				gulpMenu.addMenuDivider();
 			}
 			gulpDomain.exec('gulp', '--tasks-simple', gulpRoot, false);
