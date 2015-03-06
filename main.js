@@ -26,15 +26,20 @@ define(function (require, exports, module) {
 	gulpDomain.on('update', function (evt, data) {
 		//console.log('evntData', '|'+data+'|');
 		formOutput.appendOutput(data);
+        setIconState('success');
+
 		if (data.match(/error/) || data.match(/Error/)) {
+            console.error('Gulp error: ' + data);
 			formOutput.panelOut.show();
+            setIconState('error');
 		}
 	});
 
 	gulpDomain.on('error', function (evt, data) {
-		//console.log('error', '|' + data + '|');
+		console.error('Gulp error: ' + data);
 		formOutput.appendOutput(data);
 		formOutput.panelOut.show();
+        setIconState('error');
 	});
 
 	gulpDomain.on('tasks', function (evt, data) {
@@ -80,8 +85,10 @@ define(function (require, exports, module) {
 				this.boton.click(function () {
 					if (formOutput.panelOut.isVisible()) {
 						formOutput.panelOut.hide();
+                        setIconState('');
 					} else {
 						formOutput.panelOut.show();
+                        setIconState('active');
 					}
 				});
 				this.elem = $('#brackets-gulp-console');
@@ -97,6 +104,7 @@ define(function (require, exports, module) {
 		clear: function () {
 			if (this.elem)
 				this.elem.html('');
+            setIconState('');
 		}
 	};
 
@@ -191,5 +199,27 @@ define(function (require, exports, module) {
 		});
 	});
 
+    function setIconState(iconState) {
+        if(iconState && !/disabled|success|active|warning|error/.test(iconState)) {
+            throw new Error("Unknown icon state");
+        }
+
+        $icon.removeClass('disabled success');
+
+        if(!iconState) {
+            $icon.removeClass('active warning error');
+            return;
+        }
+
+        if(iconState === 'active') {
+            $icon.removeClass('warning error');
+            $icon.addClass(iconState);
+            return;
+        }
+
+        if(!$icon.is('active, warning, error')) {
+            $icon.addClass(iconState);
+        }
+    }
 
 });
