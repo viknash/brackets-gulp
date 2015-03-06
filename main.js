@@ -16,8 +16,7 @@ define(function (require, exports, module) {
 		FileSystem = brackets.getModule('filesystem/FileSystem'),
 		FileUtils = brackets.getModule('file/FileUtils'),
 		Menus = brackets.getModule('command/Menus'),
-		AppInit = brackets.getModule('utils/AppInit'),
-		icon = require.toUrl('gulp.png');
+		AppInit = brackets.getModule('utils/AppInit');
 
 	//bracketsOnSave: index in tasks array of brackets-onsave, task to run whenever a document is saved, or null if task not defined.
 	//bracketsDefault: index in the tasks array of brackets-default, task to run as default when gulp is run from within Brackets, or null if task not defined.
@@ -60,11 +59,11 @@ define(function (require, exports, module) {
 		});
 	});
 
-	var $icon = $('<a id="brackets-gulp-toggle" title="Gulp" class="brackets-gulp-icon" style="background-size:contain;background-image:url(\'' + icon + '\');" href="#"> </a>')
+	var $icon = $('<a id="brackets-gulp-toggle" title="Gulp" class="brackets-gulp-icon" href="#"> </a>')
 		.appendTo($('#main-toolbar .buttons'));
 
 	var formOutput = {
-		panelOutHtml: require('text!panel_output.html'),
+		panelOutHtml: require('text!templates/panel_output.html'),
 		panelOut: null,
 		elem: null,
 		boton: null,
@@ -185,6 +184,7 @@ define(function (require, exports, module) {
 
 
 	AppInit.appReady(function () {
+        ExtensionUtils.loadStyleSheet(module, "styles/styles.css");
 		loadMenu();
 		$(ProjectManager).on('projectOpen', function () {
 			loadMenu();

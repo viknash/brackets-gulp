@@ -1,0 +1,7 @@
+.brackets-gulp-icon {
+    background-size:contain;background-image:url(../images/gulp.off.png);
+}
+
+.brackets-gulp-icon.on {
+    background-size:contain;background-image:url(../images/gulp.on.png);
+}
