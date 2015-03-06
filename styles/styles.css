@@ -1,7 +1,23 @@
 .brackets-gulp-icon {
-    background-size:contain;background-image:url(../images/gulp.off.png);
+    background-image:url(../images/gulp-icon.png);
 }
 
-.brackets-gulp-icon.on {
-    background-size:contain;background-image:url(../images/gulp.on.png);
+.brackets-gulp-icon.disabled {
+    opacity: 0.4;
+}
+
+.brackets-gulp-icon.success {
+    background-position: 0 -24px !important;
+}
+
+.brackets-gulp-icon.active {
+    background-position: 0 -48px !important;
+}
+
+.brackets-gulp-icon.warning {
+    background-position: 0 -72px !important;
+}
+
+.brackets-gulp-icon.error {
+    background-position: 0 -96px !important;
 }
