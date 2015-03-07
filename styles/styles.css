@@ -21,3 +21,33 @@
 .brackets-gulp-icon.error {
     background-position: 0 -96px !important;
 }
+
+.brackets-gulp.success,
+.brackets-gulp.warning,
+.brackets-gulp.error {
+    font-weight: bold;
+    margin-bottom: 8px !important;
+}
+
+.brackets-gulp.success {
+    color: #91CC41;
+}
+
+brackets-gulp.active {
+    color: #78B2F2;
+}
+
+.brackets-gulp.warning {
+    margin-top: 8px !important;
+    color: #E3B551;
+}
+
+.brackets-gulp.error {
+    margin-top: 8px !important;
+    color: #F74687;
+}
+
+#brackets-gulp-console p {
+    line-height: 10px;
+    margin: 0 0 2px 0;
+}

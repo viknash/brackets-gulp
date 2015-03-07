@@ -59,22 +59,30 @@ define(function (require, exports, module) {
 
     function attachGulpEvents() {
         gulpDomain.on('update', function (evt, data) {
-            //console.log('evntData', '|'+data+'|');
-            appendGulpMessage(data);
-            setIconState('success');
+            var $item;
+            $item = appendGulpMessage(data);
+
+            if(data.match(/Finished/)) {
+                setIconState('success');
+                $item.addClass('success');
+            }
 
             if (data.match(/[Ee]rror/)) {
                 console.log('Gulp error: ' + data);
                 bottomPanel.show();
                 setIconState('error');
+                $item.addClass('error');
             }
         });
 
         gulpDomain.on('error', function (evt, data) {
+            var $item;
             console.error('Gulp error: ' + data);
-            appendGulpMessage(data);
             bottomPanel.show();
+
             setIconState('error');
+            appendGulpMessage(JSON.stringify(data))
+                .addClass('error');
         });
 
         gulpDomain.on('tasks', function (evt, data) {
@@ -212,7 +220,7 @@ define(function (require, exports, module) {
             message = '';
         }
 
-        $item = $gulpConsole.append('<p>' + message + '</p>');
+        $item = $('<p class="brackets-gulp">' + message + '</p>').appendTo($gulpConsole);
         $gulpConsole[0].scrollTop = $gulpConsole[0].scrollHeight;
 
         return $item;
