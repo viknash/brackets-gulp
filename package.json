@@ -1,7 +1,7 @@
 {
   "name": "dalcib.brackets-gulp",
   "title": "Brackets-Gulp",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Adds Gulp.js support to Brackets.",
   "repository": {
     "type": "git",
