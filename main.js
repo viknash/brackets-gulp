@@ -62,7 +62,7 @@ define(function (require, exports, module) {
             var $item;
             $item = appendGulpMessage(data);
 
-            if(data.match(/Finished/)) {
+            if (data.match(/Finished/)) {
                 setIconState('success');
                 $item.addClass('success');
             }
@@ -76,7 +76,6 @@ define(function (require, exports, module) {
         });
 
         gulpDomain.on('error', function (evt, data) {
-            var $item;
             console.error('Gulp error: ' + data);
             bottomPanel.show();
 
@@ -121,6 +120,10 @@ define(function (require, exports, module) {
             }
 
             bottomPanel = WorkspaceManager.createBottomPanel('brackets.gulp.bottomPanel', $(require('text!templates/panel_output.html')));
+            $('#brackets-gulp-console-clear').click(function () {
+                clearGulpConsole();
+            });
+
             $('.close', $('#brackets-gulp-bottom-panel')).click(function () {
                 bottomPanel.hide();
                 setIconState('');
@@ -221,17 +224,16 @@ define(function (require, exports, module) {
         }
 
         $item = $('<p class="brackets-gulp">' + message + '</p>').appendTo($gulpConsole);
-        $gulpConsole[0].scrollTop = $gulpConsole[0].scrollHeight;
 
         return $item;
     }
 
-    function clearGulpConsole() {
+    function clearGulpConsole(active) {
         if ($gulpConsole) {
             $gulpConsole.html('');
         }
 
-        setIconState('');
+        setIconState(active ? 'active' : '');
     }
 
     function setIconState(iconState, force) {

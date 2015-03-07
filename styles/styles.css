@@ -47,7 +47,19 @@ brackets-gulp.active {
     color: #F74687;
 }
 
+#brackets-gulp-console {
+    height: calc(100% - 53px) !important;
+}
+
 #brackets-gulp-console p {
     line-height: 10px;
     margin: 0 0 2px 0;
+}
+
+#brackets-gulp-bottom-panel .toolbar > .title {
+    line-height: 24px;
+}
+
+#brackets-gulp-bottom-panel .toolbar > .pull-right {
+    margin-right: 40px;
 }
