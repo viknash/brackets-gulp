@@ -76,6 +76,10 @@ define(function (require, exports, module) {
         });
 
         gulpDomain.on('error', function (evt, data) {
+            if(!error) {
+                return;
+            }
+
             console.error('Gulp error: ' + data);
             bottomPanel.show();
 

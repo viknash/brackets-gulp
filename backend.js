@@ -17,12 +17,13 @@
         child;
 
       child = exec(cmd, {cwd: cwd}, function (error, stdout, stderr) {
-        if (error) { console.log(error); }   
-        _domainManager.emitEvent('gulpDomain', 'error', [error]);
+        if (error) {
+            console.log(error);
+            _domainManager.emitEvent('gulpDomain', 'error', [error]);
+        }
       });
 
       child.stdout.on('data', function (data) {
-        //console.log('ok', data);
         if (args === '--tasks-simple') {
           _domainManager.emitEvent('gulpDomain', 'tasks', [data]);
         } else {
@@ -32,7 +33,6 @@
 
       child.stderr.on('data', function (data) {
         console.log('err', data);
-        //_domainManager.emitEvent('gulp', 'update', [data]);
         _domainManager.emitEvent('gulpDomain', 'error', [data]);
       });
       
