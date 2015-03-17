@@ -26,7 +26,7 @@ define(function (require, exports, module) {
         attachGulpEvents();
         createMenu();
 
-        $(ProjectManager).on('projectOpen', function () {
+        ProjectManager.on('projectOpen', function () {
             createMenu();
         });
     });
@@ -165,7 +165,7 @@ define(function (require, exports, module) {
     }
 
     function loadGulpTasksToMenu() {
-        $(DocumentManager).on('documentSaved', function () {
+        DocumentManager.on('documentSaved', function () {
             if (gulpRoot && bracketsOnsave) {
                 gulpDomain.exec('gulp', 'brackets-onsave', gulpRoot, false);
             }
