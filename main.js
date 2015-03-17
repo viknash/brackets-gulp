@@ -228,6 +228,7 @@ define(function (require, exports, module) {
         }
 
         $item = $('<p class="brackets-gulp">' + message + '</p>').appendTo($gulpConsole);
+        $gulpConsole[0].scrollTop = $gulpConsole[0].scrollHeight;
 
         return $item;
     }
