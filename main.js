@@ -76,7 +76,7 @@ define(function (require, exports, module) {
         });
 
         gulpDomain.on('error', function (evt, data) {
-            if(!error) {
+            if (!error) {
                 return;
             }
 
@@ -90,17 +90,19 @@ define(function (require, exports, module) {
 
         gulpDomain.on('tasks', function (evt, data) {
             tasks = data.split(/\n/);
-            bracketsOnsave = tasks.indexOf('brackets-onsave');
-            if (bracketsOnsave === -1) {
-                bracketsOnsave = null;
-            }
+            if (tasks.length) {
+                bracketsOnsave = tasks.indexOf('brackets-onsave');
+                if (bracketsOnsave === -1) {
+                    bracketsOnsave = null;
+                }
 
-            bracketsDefault = tasks.indexOf('brackets-default');
-            if (bracketsDefault === -1) {
-                bracketsDefault = null;
-            }
+                bracketsDefault = tasks.indexOf('brackets-default');
+                if (bracketsDefault === -1) {
+                    bracketsDefault = null;
+                }
 
-            loadGulpTasksToMenu(gulpRoot);
+                loadGulpTasksToMenu(gulpRoot);
+            }
         });
     }
 
@@ -114,7 +116,7 @@ define(function (require, exports, module) {
                 throw new Error("Gulp-brackets: Icon already exists.");
             }
 
-            $icon = $('<a id="brackets-gulp-toggle" title="Gulp" class="brackets-gulp-icon" href="#"> </a>')
+            $icon = $('<a id="brackets-gulp-toggle" title="Texy Console" class="brackets-gulp-icon" href="#"> </a>')
                 .appendTo($('#main-toolbar .buttons'));
         }
 
@@ -154,9 +156,15 @@ define(function (require, exports, module) {
 
         locateGulpRoot(ProjectManager.getProjectRoot().fullPath)
             .then(function success(path) {
-                gulpMenu = Menus.addMenu('Gulp', 'djb.gulp-menu');
-                gulpRoot = path;
-                gulpDomain.exec('gulp', '--tasks-simple', gulpRoot, false);
+                if (path.indexOf("texy") != -1) {
+                    gulpMenu = Menus.addMenu('Texy', 'djb.gulp-menu');
+                    gulpRoot = path;
+                    gulpDomain.exec('gulp', '--tasks-simple', gulpRoot, false);
+                } else {
+                    gulpRoot = null;
+                    setIconState('disabled', true);
+                    console.warn("Brakets-gulp: " + message);
+                }
             }, function error(message) {
                 gulpRoot = null;
                 setIconState('disabled', true);
@@ -178,7 +186,7 @@ define(function (require, exports, module) {
                     defaultTitle = 'Default (brackets-default)';
                     defaultTask = 'brackets-default';
                 } else {
-                    defaultTitle = 'Default';
+                    defaultTitle = 'Build';
                     defaultTask = '';
                 }
 
@@ -188,8 +196,17 @@ define(function (require, exports, module) {
             }
 
             gulpMenu.addMenuItem('djb.brackets-gulp.gulp', 'Alt-G');
+            //gulpMenu.addMenuDivider();
+        }
+
+        if (!CommandManager.get('djb.brackets-gulp.continuous')) {
+            CommandManager.register('Start Continuous Builds...', 'djb.brackets-gulp.continuous', function () {
+                gulpDomain.exec('gulp', 'build --continuous', gulpRoot, false);
+            });
+            gulpMenu.addMenuItem('djb.brackets-gulp.continuous');
             gulpMenu.addMenuDivider();
         }
+
 
         tasks.forEach(function (task) {
             if (task && task !== (bracketsDefault !== null ? 'brackets-default' : 'default')) {
@@ -198,14 +215,17 @@ define(function (require, exports, module) {
                         gulpDomain.exec('gulp', task, gulpRoot, false);
                     });
                 }
-
-                gulpMenu.addMenuItem('djb.brackets-gulp.' + task);
+                if (task.length && task.indexOf("grunt") == -1 && task.indexOf("Warning") == -1) {
+                    gulpMenu.addMenuItem('djb.brackets-gulp.' + task);
+                }
             }
         });
 
-        CommandManager.register('Clear Gulp Output console', 'djb.brackets-gulp.clear', clearGulpConsole);
-        gulpMenu.addMenuDivider();
-        gulpMenu.addMenuItem('djb.brackets-gulp.clear');
+        if (!CommandManager.get('djb.brackets-gulp.clear')) {
+            CommandManager.register('Clear Gulp Output console', 'djb.brackets-gulp.clear', clearGulpConsole);
+            gulpMenu.addMenuItem('djb.brackets-gulp.clear');
+            gulpMenu.addMenuDivider();
+        }
     }
 
     function destroyMenu() {

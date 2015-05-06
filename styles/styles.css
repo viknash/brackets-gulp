@@ -1,5 +1,5 @@
 .brackets-gulp-icon {
-    background-image:url(../images/gulp-icon.png);
+    background-image: url(../images/gulp-icon.png);
 }
 
 .brackets-gulp-icon.disabled {
@@ -48,6 +48,8 @@ brackets-gulp.active {
 }
 
 #brackets-gulp-console {
+    background-color: #2C2C2C;
+    color: beige;
     height: calc(100% - 53px) !important;
 }
 
